@@ -56,9 +56,24 @@ h1 {
     margin: 0 20px;
 }
 
+#ranking-board {
+    min-width: 200px; /* Ensure ranking board has enough space */
+}
+
+#ranking-list {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+#ranking-list li {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
 #game-board {
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     border: 2px solid #ff80ab; /* Pink border */
     border-radius: 10px;
     position: relative;

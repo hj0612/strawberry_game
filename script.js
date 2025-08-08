@@ -8,20 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // 게임 요소
     const gameBoard = document.getElementById('game-board');
     const scoreElement = document.getElementById('score');
-    const highScoreElement = document.getElementById('high-score');
+    const rankingList = document.getElementById('ranking-list');
     const timerElement = document.getElementById('timer');
     const resetButton = document.getElementById('reset-button');
 
     // 게임 변수
     let score = 0;
-    let highScoreData = JSON.parse(localStorage.getItem('highScoreData')) || { name: '-', score: 0 };
+    let rankings = JSON.parse(localStorage.getItem('rankings')) || [];
     let nickname = '익명';
     let timer;
     let timeLeft = 60;
     const gameTime = 60;
-    const boardSize = 400;
+    const boardSize = 500;
     const strawberrySize = 50;
-    const maxStrawberries = 15;
+    const maxStrawberries = 25;
     let strawberries = [];
 
     // --- 이벤트 리스너 ---
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initGame() {
         score = 0;
         updateScore();
-        loadHighScore();
+        loadRankings();
         gameBoard.innerHTML = '';
         strawberries = [];
         gameBoard.style.pointerEvents = 'auto';
@@ -63,26 +63,29 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timer);
         gameBoard.style.pointerEvents = 'none';
         alert(`시간 종료!\n${nickname}님의 점수는 ${score}점 입니다.`);
-        // 최고 점수 확인 및 갱신
-        if (score > highScoreData.score) {
-            alert(`축하합니다! 최고 기록을 갱신했습니다!`);
-            highScoreData = { name: nickname, score: score };
-            saveHighScore();
-            loadHighScore();
-        }
+        updateRankings({ name: nickname, score: score });
     }
 
-    // --- 점수 관련 함수 ---
+    // --- 점수 및 랭킹 관련 함수 ---
     function updateScore() {
         scoreElement.textContent = score;
     }
 
-    function loadHighScore() {
-        highScoreElement.textContent = `${highScoreData.name}: ${highScoreData.score}`;
+    function loadRankings() {
+        rankingList.innerHTML = '';
+        rankings.forEach((r, index) => {
+            const li = document.createElement('li');
+            li.textContent = `${index + 1}. ${r.name}: ${r.score}`;
+            rankingList.appendChild(li);
+        });
     }
 
-    function saveHighScore() {
-        localStorage.setItem('highScoreData', JSON.stringify(highScoreData));
+    function updateRankings(newScore) {
+        rankings.push(newScore);
+        rankings.sort((a, b) => b.score - a.score); // 점수 내림차순 정렬
+        rankings = rankings.slice(0, 5); // 상위 5개만 유지
+        localStorage.setItem('rankings', JSON.stringify(rankings));
+        loadRankings();
     }
 
     // --- 딸기 생성 ---
@@ -95,7 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function createStrawberry() {
         const strawberry = document.createElement('div');
         strawberry.classList.add('strawberry');
-        strawberry.textContent = Math.floor(Math.random() * 9) + 1;
+        // 낮은 숫자가 더 자주 나오도록 확률 조정
+        const r1 = Math.random();
+        const r2 = Math.random();
+        const value = Math.floor(Math.min(r1, r2) * 9) + 1;
+        strawberry.textContent = value;
 
         let posX, posY, overlap;
         do {
@@ -166,6 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 초기 최고 점수 표시
-    loadHighScore();
+    // 초기 랭킹 표시
+    loadRankings();
 });
