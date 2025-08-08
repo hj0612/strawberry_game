@@ -1,0 +1,104 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fce4ec; /* Light pink background */
+}
+
+#start-screen {
+    text-align: center;
+}
+
+#nickname-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ff80ab;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#start-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #d81b60;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.game-container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    color: #d81b60; /* Deep pink */
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.score-board {
+    margin: 0 20px;
+}
+
+#game-board {
+    width: 400px;
+    height: 400px;
+    border: 2px solid #ff80ab; /* Pink border */
+    border-radius: 10px;
+    position: relative;
+    background-color: #fff8f8;
+}
+
+.strawberry {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff4081; /* Bright pink */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none; /* Prevents text selection during drag */
+    transition: transform 0.1s ease-out;
+}
+
+.strawberry.selected {
+    background-color: #f50057; /* Darker pink when selected */
+    transform: scale(1.1);
+}
+
+#reset-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #d81b60;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#reset-button:hover {
+    background-color: #ad1457;
+}
